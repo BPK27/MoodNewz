@@ -1,0 +1,53 @@
+package week1;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+public class AffectMap {
+  private Hashtable<String, Vector<String>> words = new Hashtable<>();
+	private Vector<String> v = new Vector<String>();
+	
+	public AffectMap(String file){	//Constructor which opens the file and assigns the values to the hashtable.
+
+		try (BufferedReader buff = new BufferedReader(new FileReader(file)))
+		{
+			String line;
+			String headWord= null;
+			StringTokenizer s;
+			Vector<String> v;
+			while((line = buff.readLine()) != null){	//Reads in the file line by line.
+				s = new StringTokenizer(line);
+				v = new Vector<String>();
+				headWord = s.nextToken();
+				while(s.hasMoreTokens()){	//Loops until there are no more tokens.
+					v.add(s.nextToken());		//Adds the next token to the vector.
+				}
+				words.put(headWord, v);
+			}
+			
+		} catch (IOException e) {	//Throws an exception when the file path is not available
+			System.out.println("Problem with file reading");
+		}
+	}
+	
+	public boolean containsWord (String word){	//returns true if the word is in the hashmap
+		if(words.containsKey(word))
+			return true;
+		else
+			return false;
+	}
+	
+	public Vector<String> getAssociationsOfWord(String word){	//Returns the associations of the word passed in.
+		if(words.containsKey(word)){
+			return words.get(word);
+		}
+		else{
+			return v;
+		}
+	}
+	
+}
