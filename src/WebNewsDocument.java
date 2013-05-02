@@ -88,14 +88,20 @@ public class WebNewsDocument{
 			 */
 			if(text.indexOf("<div id=\"article-body-blocks\">") != -1){						//if string is found in text
 				//Guardian
+				System.out.println(this.getHeadlineText());
 				text = text.delete(0, text.indexOf("<div id=\"article-body-blocks\">"));   //get rid of everything before string
 				text = text.delete(0, text.indexOf("<p>")+3);								//get rid of everything including the new 1st "<p>"
 				article = text.substring(0, text.indexOf("</div>"));						
 			}
-			else{
+			else if(text.indexOf("<section>") != -1){
 				//Irishtimes
+				System.out.println(this.getURL());
 				text = text.delete(0, text.indexOf("<section>"));
 				article = text.substring(0, text.lastIndexOf("</section>"));
+			}
+			else{
+				System.out.println(this.getURL());
+				System.out.println("NOTHING TO SEE HERE");
 			}
 			
 			//Jsoup code
