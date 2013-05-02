@@ -40,12 +40,11 @@ public class RSSfeed {
 	    SyndFeed sf = input.build(new XmlReader(feedUrl));
 
 	    List entries = sf.getEntries();
-	    Iterator it = entries.iterator();
+	    Iterator<String> it = entries.iterator();
 	    while (it.hasNext()) {
 	      SyndEntry entry = (SyndEntry)it.next();
 	      try
 	      {
-//	          String filename= "Irishtime.txt";
 	          FileWriter fw = new FileWriter(dest,true); //the true will append the new data
 	          fw.write(entry.getLink());//appends the string to the file
 	          fw.write(" "+entry.getTitle() + "\n");
