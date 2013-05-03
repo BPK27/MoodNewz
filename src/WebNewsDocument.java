@@ -65,14 +65,20 @@ public class WebNewsDocument{
 		}
 		else{
 			StringBuffer text = new StringBuffer(getRawText());
-			String headline;
-			text = text.delete(0, text.indexOf("og:title")+19);  //19 characters from beginnning of string to title location
-			headline = text.substring(0, text.indexOf("\""));		//finds closing quote of title
-		
+			String headline = "";
+			text = text.delete(0, text.indexOf("<title>")+7);  //19 characters from beginnning of string to title location
+			if(text.indexOf("    - ") != -1){
+				headline = text.substring(0, text.indexOf("    - "));
+			}
+			else{
+				headline = text.substring(0, text.indexOf("|"));		//finds closing quote of title	
+			}
+								
 			return headline;
 		}
 		
 	}
+	
 	
 	public String getBodyText(){
 		if(getRawText() == error ){
@@ -86,22 +92,20 @@ public class WebNewsDocument{
 			 * rather than using specific domains, this allows for
 			 * sites with similar layout to be processed too
 			 */
-			if(text.indexOf("<div id=\"article-body-blocks\">") != -1){						//if string is found in text
+			if(text.indexOf("<div id=\"article-body-blocks\">") != -1){
 				//Guardian
-				System.out.println(this.getHeadlineText());
 				text = text.delete(0, text.indexOf("<div id=\"article-body-blocks\">"));   //get rid of everything before string
 				text = text.delete(0, text.indexOf("<p>")+3);								//get rid of everything including the new 1st "<p>"
 				article = text.substring(0, text.indexOf("</div>"));						
 			}
+			else if(text.indexOf("</aside>") != -1){
+				text = text.delete(0, text.indexOf("</aside>"));
+				article = text.substring(0, text.lastIndexOf("<!-- article_footer_panel -->"));
+			}
 			else if(text.indexOf("<section>") != -1){
 				//Irishtimes
-				System.out.println(this.getURL());
 				text = text.delete(0, text.indexOf("<section>"));
 				article = text.substring(0, text.lastIndexOf("</section>"));
-			}
-			else{
-				System.out.println(this.getURL());
-				System.out.println("NOTHING TO SEE HERE");
 			}
 			
 			//Jsoup code
