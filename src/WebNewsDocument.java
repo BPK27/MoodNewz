@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 
 import java.io.*;
 
@@ -59,6 +60,35 @@ public class WebNewsDocument{
 		return web.substring(0,web.indexOf("/"));  //returns substring without url after website domain
 	}
 		
+	public String getAuthor(){
+		StringBuffer text = new StringBuffer(getRawText());
+		String author = "";
+		if(text.indexOf("<span itemscope itemprop=\"author\"") != -1){
+			//Guardian
+			text = text.delete(0, text.indexOf("<span itemscope itemprop=\"author\"")); 
+			author = text.substring(0, text.indexOf("</div>"));
+		}
+		else if(text.indexOf("<div class=\"author_name\">") != -1){
+			//Irish Times
+			text = text.delete(0, text.indexOf("<div class=\"author_name\">")); 
+			author = text.substring(0, text.indexOf("</div>"));
+		}
+		else if(text.indexOf("<a href=\"/author") != -1){
+			text = text.delete(0, text.indexOf("<a href=\"/author")); 
+			author = text.substring(0, text.indexOf("</a>"));
+			author = author.replace("&nbsp;", "");  //get rid of tag after author name
+		}
+		else{
+			return "Author not found";
+		}
+		
+		Document doc = Jsoup.parse(author);
+		String clean = Jsoup.clean(doc.body().html(), Whitelist.simpleText());
+	    return clean;
+		//text = text.delete(0, text.indexOf("<title>")+7);  //19 characters from beginnning of string to title 
+		//return author;
+	}
+	
 	public String getHeadlineText(){
 		if(getRawText() == error ){
 			return error + " " + getURL();   //returns the bad url to user if detected
@@ -74,7 +104,7 @@ public class WebNewsDocument{
 				headline = text.substring(0, text.indexOf("|"));		//finds closing quote of title	
 			}
 								
-			return headline;
+			return headline.trim();
 		}
 		
 	}
@@ -95,7 +125,7 @@ public class WebNewsDocument{
 			if(text.indexOf("<div id=\"article-body-blocks\">") != -1){
 				//Guardian
 				text = text.delete(0, text.indexOf("<div id=\"article-body-blocks\">"));   //get rid of everything before string
-				text = text.delete(0, text.indexOf("<p>")+3);								//get rid of everything including the new 1st "<p>"
+				text = text.delete(0, text.indexOf("<p>"));								//get rid of everything including the new 1st "<p>"
 				article = text.substring(0, text.indexOf("</div>"));						
 			}
 			else if(text.indexOf("</aside>") != -1){
