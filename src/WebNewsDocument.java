@@ -89,6 +89,32 @@ public class WebNewsDocument{
 		//return author;
 	}
 	
+	public String getDate(){
+		StringBuffer text = new StringBuffer(getRawText());
+		String date = "";
+		if(text.indexOf("<time itemprop=\"datePublished\"") != -1){
+			//Guardian
+			text = text.delete(0, text.indexOf("<time itemprop=\"datePublished\"")); 
+			date = text.substring(0, text.indexOf("</time>"));
+		}
+		else if(text.indexOf("<div class=\"date\">") != -1){
+			//Irish Times
+			text = text.delete(0, text.indexOf("<div class=\"date\">")); 
+			date = text.substring(0, text.indexOf("</div>"));
+		}
+		else if(text.indexOf("<time class=\"datePublished\"") != -1){
+			text = text.delete(0, text.indexOf("<time class=\"datePublished\"")); 
+			date = text.substring(0, text.indexOf("</time>"));
+		}
+		else{
+			return "Date not found";
+		}
+		
+		Document doc = Jsoup.parse(date);
+		String clean = Jsoup.clean(doc.body().html(), Whitelist.simpleText());
+	    return clean;
+	}
+	
 	public String getHeadlineText(){
 		if(getRawText() == error ){
 			return error + " " + getURL();   //returns the bad url to user if detected
@@ -103,8 +129,9 @@ public class WebNewsDocument{
 			else{
 				headline = text.substring(0, text.indexOf("|"));		//finds closing quote of title	
 			}
-								
-			return headline.trim();
+					
+			return headline;
+			
 		}
 		
 	}
@@ -138,10 +165,10 @@ public class WebNewsDocument{
 				article = text.substring(0, text.lastIndexOf("</section>"));
 			}
 			
+			
 			//Jsoup code
 			Document doc = Jsoup.parse(article);
 			StringBuilder sb = new StringBuilder();					
-
 
 			for(Element element : doc.select("p") )
 			{
