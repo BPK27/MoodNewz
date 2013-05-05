@@ -9,9 +9,11 @@ public class Main {
 	 */
 	public static void main(String[] args) throws IOException {
 
+		//Indexer index = new Indexer("src\\Articles\\", true);
 		
-		CreateDocuments docs = new CreateDocuments("src/Guardian.txt");
-		docs.getDocuments();
+		Searcher searcher = new Searcher("src\\Articles\\");
+		
+		searcher.printHits(searcher.search("Bush official", "article"));
 
 	}
 
