@@ -13,7 +13,7 @@ public class QueryBasedSummarizer {
 	}
 	
 	//method to expand the query to use associated words
-	private Vector<String> queryAnalyser(String query){
+	public Vector<String> queryAnalyser(String query){
 		StringTokenizer st = new StringTokenizer(query);
 		Vector<String> allQueryWords = new Vector<String>();
 		Vector<String> queryWords = new Vector<String>();

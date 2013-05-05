@@ -10,8 +10,15 @@ public class Indexer {
 	{
     	MyLuceneIndexer indexer = new MyLuceneIndexer(indexPath, create); //create index from scratch
     	
-    	CreateDocuments docs = new CreateDocuments("src\\Guardian.txt");
-    	Vector<WebNewsDocument> documents = docs.getDocuments();
+    	CreateDocuments guardian = new CreateDocuments("src\\Guardian.txt");
+    	CreateDocuments irishtimes = new CreateDocuments("src\\irishtime.txt");
+    	CreateDocuments techradar = new CreateDocuments("src\\Techradar.txt");
+    	
+    	
+    	
+    	Vector<WebNewsDocument> documents = guardian.getDocuments();
+    	documents.addAll(irishtimes.getDocuments());
+    	documents.addAll(techradar.getDocuments());
     	
     	for(WebNewsDocument doc : documents){
     		indexer.writeIndex(new MyDocument(doc.getHeadlineText(),doc.getDate(), doc.getAuthor(), doc.getBodyText()).getLuceneDoc());

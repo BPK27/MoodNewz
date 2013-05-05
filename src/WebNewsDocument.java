@@ -126,11 +126,15 @@ public class WebNewsDocument{
 			if(text.indexOf("    - ") != -1){
 				headline = text.substring(0, text.indexOf("    - "));
 			}
-			else{
+			else if(text.indexOf("|") != -1){
 				headline = text.substring(0, text.indexOf("|"));		//finds closing quote of title	
 			}
-					
+			else{
+				
+			}
+			
 			return headline;
+			
 			
 		}
 		
@@ -155,9 +159,13 @@ public class WebNewsDocument{
 				text = text.delete(0, text.indexOf("<p>"));								//get rid of everything including the new 1st "<p>"
 				article = text.substring(0, text.indexOf("</div>"));						
 			}
-			else if(text.indexOf("</aside>") != -1){
-				text = text.delete(0, text.indexOf("</aside>"));
-				article = text.substring(0, text.lastIndexOf("<!-- article_footer_panel -->"));
+			else if(text.indexOf("<div class=\"article-body\"") != -1){
+				text = text.delete(0, text.indexOf("<div class=\"article-body\""));
+				article = text.substring(0, text.indexOf("</div>"));
+				if(text.indexOf("<!-- End of Universal Video Player -->") != -1){
+					text = text.delete(0, text.indexOf("<!-- End of Universal Video Player -->"));
+					article += text.substring(0, text.indexOf("</div>"));
+				}
 			}
 			else if(text.indexOf("<section>") != -1){
 				//Irishtimes
