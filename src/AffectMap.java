@@ -44,8 +44,9 @@ public class AffectMap {
 	public Vector<String> getAssociationsOfWord(String word){
 		word = word.toLowerCase();	//allows for capitalisation of words
 		if(affectWords.get(word) == null){
-			System.out.println(word + " not found");
-			return null;
+			Vector<String> query = new Vector<String>();
+			query.add(word);
+			return query;
 		}
 		else{
 			return affectWords.get(word);  //returns associated words
