@@ -15,6 +15,7 @@ public class Main {
 		back.search("football nigger");
 		System.out.println(back.Headlines());
 		System.out.println(back.Articles());
+		System.out.println(back.Fragments());
 		
 		
 		

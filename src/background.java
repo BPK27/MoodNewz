@@ -9,6 +9,7 @@ public class background {
 	QueryBasedSummarizer qbs;
 	Searcher searcher;
 	Vector<String> boldedArticles = new Vector<String>();
+	Vector<String> boldedFragments = new Vector<String>();
 	
 	public background(){
 		AffectMap pos = new AffectMap("src/positive map tabbed.idx");
@@ -35,10 +36,18 @@ public class background {
 			}
 			boldedArticles.add(article);
 		}
+		
+		for(String[] st : searcher.fragments){
+			String article = "";
+			//String s = "";
+			for(String s : st){
+				article += s;
+			}
+			boldedFragments.add(article);
+		}
 	}	
 	
 	public Vector<String> Headlines(){
-		//System.out.println(searcher.resultsHeadlines);
 		Vector<String> headlines = searcher.resultsHeadlines;
 		return headlines;
 	}
@@ -46,6 +55,11 @@ public class background {
 	public Vector<String> Articles(){
 		
 		return boldedArticles;
+	}
+	
+	public Vector<String> Fragments(){
+		
+		return boldedFragments;
 	}
 	
 	

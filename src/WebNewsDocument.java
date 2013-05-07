@@ -160,8 +160,10 @@ public class WebNewsDocument{
 				article = text.substring(0, text.indexOf("</div>"));						
 			}
 			else if(text.indexOf("<div class=\"article-body\"") != -1){
+				//TechRadar
 				text = text.delete(0, text.indexOf("<div class=\"article-body\""));
 				article = text.substring(0, text.indexOf("</div>"));
+				//some files have video in them, this removes that video
 				if(text.indexOf("<!-- End of Universal Video Player -->") != -1){
 					text = text.delete(0, text.indexOf("<!-- End of Universal Video Player -->"));
 					article += text.substring(0, text.indexOf("</div>"));
