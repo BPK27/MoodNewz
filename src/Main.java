@@ -1,24 +1,18 @@
-import java.io.IOException;
-
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
+package src;
 
 
 public class Main {
 
 	/**
 	 * @param args
-	 * @throws InvalidTokenOffsetsException 
-	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws IOException, InvalidTokenOffsetsException {
-		background back = new background();
-		back.search("football nigger");
-		System.out.println(back.Headlines());
-		System.out.println(back.Articles());
-		System.out.println(back.Fragments());
-		
-		
-		
+	public static void main(String[] args) {
+//		background back = new background();
+//		back.search("football");
+//		System.out.println(back.Headlines());
+//		System.out.println(back.Articles());
+		SearchBox search = new SearchBox();
+		search.run();
 		
 
 	}
