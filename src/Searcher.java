@@ -32,6 +32,7 @@ public class Searcher {
     public Vector<String> resultsHeadlines = new Vector<String>();
     private Vector<String> resultsArticles = new Vector<String>();
     public Vector<String[]> resultsBoldedArticles = new Vector<String[]>();
+    public Vector<String> resultsDates = new Vector<String>();
     public Vector<String[]> fragments = new Vector<String[]>();
     
 	public Searcher(String indexPath){
@@ -70,6 +71,7 @@ public class Searcher {
 			    Document d = searcher.doc(docId);
 			    resultsHeadlines.add(d.get("headline")); //headlines
 			    resultsArticles.add(d.get("article"));  //articles(no formatting)
+			    resultsDates.add(d.get("date"));
 			}	
 		}catch(Exception e){e.printStackTrace();}
 	}

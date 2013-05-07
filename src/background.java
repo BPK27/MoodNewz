@@ -62,5 +62,10 @@ public class background {
 		return boldedFragments;
 	}
 	
+	public Vector<String> Dates(){
+		Vector<String> dates = searcher.resultsDates;
+		return dates;
+	}
+	
 	
 }
